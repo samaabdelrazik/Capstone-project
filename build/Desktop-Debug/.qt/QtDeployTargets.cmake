@@ -1,2 +1,0 @@
-set(__QT_DEPLOY_TARGET_ServiceFinder_FILE /home/hassaan/Project/ServiceFinder/build/Desktop-Debug/ServiceFinder)
-set(__QT_DEPLOY_TARGET_ServiceFinder_TYPE EXECUTABLE)
