@@ -6,7 +6,7 @@
 
 MainWindow::MainWindow(System *system)
     : QMainWindow(nullptr)
-    , ui(new Ui::MainWindow)
+    , ui(new Ui::MainWindow), system(system)
 {
     ui->setupUi(this);
 
@@ -21,12 +21,9 @@ MainWindow::MainWindow(System *system)
     // Connect login signals
     connect(loginScreen, &LoginScreen::loginAsCustomer, this, &MainWindow::showCustomerDashboard);
     connect(loginScreen, &LoginScreen::loginAsProvider, this, &MainWindow::showProviderDashboard);
-    connect(usersearch, &UserSearch::searchButtonClicked, [&](QString category)
-            { qDebug() << "Search triggered";
-            qDebug() << "Category:" << category;
-            system->getProviders();}); //The whole program crashes here!!!!
-}
+    connect(usersearch, &UserSearch::searchButtonClicked, this, &MainWindow::handleSearch);
 
+}
 MainWindow::~MainWindow()
 {
     delete ui;}
@@ -38,6 +35,10 @@ void MainWindow::showLogin()
 void MainWindow::showCustomerDashboard()
 {
     stackedWidget->setCurrentWidget(usersearch);
+}
+void MainWindow::handleSearch(QString cat)
+{
+    auto providers = system->filterByCategory(cat.toStdString());
 }
 void MainWindow::showProviderDashboard()
 {}

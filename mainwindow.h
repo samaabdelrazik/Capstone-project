@@ -23,12 +23,14 @@ private slots:
     void showLogin();
     void showCustomerDashboard();
     void showProviderDashboard();
+    void handleSearch(QString);
 
 private:
     Ui::MainWindow *ui;
     QStackedWidget *stackedWidget;
     LoginScreen *loginScreen;
     UserSearch *usersearch;
+    System* system;
 };
 
 #endif
