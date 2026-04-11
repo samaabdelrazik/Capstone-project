@@ -33,7 +33,7 @@ public:
     QHBoxLayout *horizontalLayout;
     QPushButton *search_button;
     QLineEdit *categoryLineEdit;
-    QTableWidget *tableWidget;
+    QTableWidget *searchTable;
 
     void setupUi(QDialog *UserSearch)
     {
@@ -66,18 +66,18 @@ public:
 
         verticalLayout_2->addLayout(horizontalLayout);
 
-        tableWidget = new QTableWidget(widget);
-        if (tableWidget->columnCount() < 3)
-            tableWidget->setColumnCount(3);
+        searchTable = new QTableWidget(widget);
+        if (searchTable->columnCount() < 3)
+            searchTable->setColumnCount(3);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        searchTable->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        searchTable->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
-        tableWidget->setObjectName("tableWidget");
+        searchTable->setHorizontalHeaderItem(2, __qtablewidgetitem2);
+        searchTable->setObjectName("searchTable");
 
-        verticalLayout_2->addWidget(tableWidget);
+        verticalLayout_2->addWidget(searchTable);
 
 
         verticalLayout->addWidget(widget);
@@ -94,11 +94,11 @@ public:
         welcome_label->setText(QCoreApplication::translate("UserSearch", "Welcome back!", nullptr));
         search_button->setText(QCoreApplication::translate("UserSearch", "Search", nullptr));
         categoryLineEdit->setText(QCoreApplication::translate("UserSearch", "What service do you need?", nullptr));
-        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
+        QTableWidgetItem *___qtablewidgetitem = searchTable->horizontalHeaderItem(0);
         ___qtablewidgetitem->setText(QCoreApplication::translate("UserSearch", "Name", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
+        QTableWidgetItem *___qtablewidgetitem1 = searchTable->horizontalHeaderItem(1);
         ___qtablewidgetitem1->setText(QCoreApplication::translate("UserSearch", "Category", nullptr));
-        QTableWidgetItem *___qtablewidgetitem2 = tableWidget->horizontalHeaderItem(2);
+        QTableWidgetItem *___qtablewidgetitem2 = searchTable->horizontalHeaderItem(2);
         ___qtablewidgetitem2->setText(QCoreApplication::translate("UserSearch", "Rating", nullptr));
     } // retranslateUi
 

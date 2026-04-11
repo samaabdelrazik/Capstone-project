@@ -21,6 +21,7 @@ MainWindow::MainWindow(System *system)
     // Connect login signals
     connect(loginScreen, &LoginScreen::loginAsCustomer, this, &MainWindow::showCustomerDashboard);
     connect(loginScreen, &LoginScreen::loginAsProvider, this, &MainWindow::showProviderDashboard);
+
     connect(usersearch, &UserSearch::searchButtonClicked, this, &MainWindow::handleSearch);
 
 }
@@ -38,7 +39,9 @@ void MainWindow::showCustomerDashboard()
 }
 void MainWindow::handleSearch(QString cat)
 {
-    auto providers = system->filterByCategory(cat.toStdString());
+    auto searchResult = system->filterByCategory(cat.toStdString());
+    usersearch->editSearchTable(searchResult);
+
 }
 void MainWindow::showProviderDashboard()
 {}

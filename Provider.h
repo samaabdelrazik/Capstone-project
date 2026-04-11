@@ -15,5 +15,6 @@ class Provider: public User
         Provider(string, string, string , double =0);
         bool isAvailable() const;
         string getCategory() const;
+        double getPrice()const;
 };
 #endif

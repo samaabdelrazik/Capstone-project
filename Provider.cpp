@@ -19,3 +19,8 @@ string Provider::getCategory() const
 {
     return category;
 }
+
+double Provider::getPrice() const
+{
+    return price;
+}

@@ -2,6 +2,7 @@
 #define USERSEARCH_H
 
 #include <QDialog>
+#include "Provider.h"
 #include <string>
 
 namespace Ui {
@@ -14,6 +15,7 @@ class UserSearch : public QDialog
 
 public:
     explicit UserSearch(QWidget *parent = nullptr);
+    void editSearchTable(std::vector<Provider>);
     ~UserSearch();
 
 signals:
