@@ -33,12 +33,7 @@ ProviderDashboard::ProviderDashboard(QWidget *parent)
         double newPrice = ui->priceInput->text().toDouble();
 
         // temporary update (since no setter exists)
-        currentProvider = Provider(
-            currentProvider.getUserName(),
-            "pass",
-            currentProvider.getCategory(),
-            newPrice
-            );
+        currentProvider = new Provider("Name", "pass", "Cooking" , 100);
 
         ui->priceLabel->setText(QString::number(newPrice));
     });
@@ -51,30 +46,31 @@ ProviderDashboard::ProviderDashboard(QWidget *parent)
             ui->statusLabel->setText("Available");
     });
 
-    loadData();
+    //loadData();
 }
 
 ProviderDashboard::~ProviderDashboard()
 {
-    delete ui;
+    delete currentProvider;
+delete ui;
 }
 
 void ProviderDashboard::loadData()
 {
     // 🔹 Welcome
     ui->welcomeLabel->setText(
-        "Welcome, " + QString::fromStdString(currentProvider.getUserName())
+        "Welcome, " + QString::fromStdString(currentProvider->getUserName())
         );
 
     // 🔹 Provider info
-    ui->nameLabel->setText(QString::fromStdString(currentProvider.getUserName()));
-    ui->categoryLabel->setText(QString::fromStdString(currentProvider.getCategory()));
-    ui->priceLabel->setText(QString::number(currentProvider.getPrice()));
+    ui->nameLabel->setText(QString::fromStdString(currentProvider->getUserName()));
+    ui->categoryLabel->setText(QString::fromStdString(currentProvider->getCategory()));
+    ui->priceLabel->setText(QString::number(currentProvider->getPrice()));
 
     // 🔹 Fill input field
-    ui->priceInput->setText(QString::number(currentProvider.getPrice()));
+    ui->priceInput->setText(QString::number(currentProvider->getPrice()));
 
-    if (currentProvider.isAvailable())
+    if (currentProvider->isAvailable())
         ui->statusLabel->setText("Available");
     else
         ui->statusLabel->setText("Not Available");
