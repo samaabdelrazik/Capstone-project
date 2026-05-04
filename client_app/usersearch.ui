@@ -43,6 +43,13 @@
        </layout>
       </item>
       <item>
+       <widget class="QPushButton" name="myBookingsButton">
+        <property name="text">
+         <string>My Bookings</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QTableWidget" name="searchTable">
         <column>
          <property name="text">

@@ -2,11 +2,12 @@
 #include <QDebug>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QFileInfo>
 
 DatabaseManager::DatabaseManager()
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName("../service_finder.db");
+    db.setDatabaseName("/home/sama/Capstone/service_finder.db");
 
     if (!db.open()) {
         qDebug() << "Error: Connection with database failed:" << db.lastError().text();
@@ -32,6 +33,7 @@ DatabaseManager::DatabaseManager()
                    "provider_user TEXT, "
                    "booking_date TEXT)");
     }
+    qDebug() << "Database absolute path:" << QFileInfo("../service_finder.db").absoluteFilePath();
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -63,6 +65,10 @@ bool DatabaseManager::verifyUser(QString name, QString pass)
 
 bool DatabaseManager::verifyProvider(QString name, QString pass)
 {
+    if (!QSqlDatabase::database().isOpen()) {
+        qDebug() << "Database is NOT open in verifyProvider!";
+        return false;
+    }
     QSqlQuery query;
     query.prepare("SELECT 1 FROM Providers WHERE username = :user AND password = :pass");
     query.bindValue(":user", name);

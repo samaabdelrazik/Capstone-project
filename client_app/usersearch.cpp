@@ -16,13 +16,11 @@ UserSearch::~UserSearch()
     delete ui;
 }
 
-// Populate search results table from the JSON array the server sends back.
-// Columns: 0 = Name, 1 = Category, 2 = Price
 void UserSearch::editSearchTable(const QJsonArray& results)
 {
     ui->searchTable->setRowCount(results.size());
-    ui->searchTable->setColumnCount(3);
-    ui->searchTable->setHorizontalHeaderLabels({"Name", "Category", "Price"});
+    ui->searchTable->setColumnCount(4);
+    ui->searchTable->setHorizontalHeaderLabels({"Name", "Category", "Price", ""});
 
     for (int i = 0; i < results.size(); i++)
     {
@@ -34,7 +32,16 @@ void UserSearch::editSearchTable(const QJsonArray& results)
         ui->searchTable->setItem(i, 2,
                                  new QTableWidgetItem(
                                      QString::number(obj["price"].toDouble(), 'f', 2)));
+
+        QPushButton* button = new QPushButton("Book");
+        connect(button, &QPushButton::clicked, this, [this, i](){onBookRowClicked(i);});
+        ui->searchTable->setCellWidget(i, 3, button);
     }
+
+    ui->searchTable->horizontalHeader()
+        ->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->searchTable->horizontalHeader()
+        ->setSectionResizeMode(3, QHeaderView::ResizeToContents);
 }
 
 void UserSearch::on_search_button_clicked()
@@ -45,14 +52,10 @@ void UserSearch::on_search_button_clicked()
 // Called when the user clicks the Book button.
 // Reads the selected row from searchTable to get the provider name,
 // and uses today's date as a placeholder (add a date picker to the UI later).
-void UserSearch::on_book_button_clicked()
+void UserSearch::onBookRowClicked(int row)
 {
-    int row = ui->searchTable->currentRow();
-    if (row < 0) {
-        QMessageBox::warning(this, "No Selection",
-                             "Please select a provider from the list first.");
-        return;
-    }
+    QTableWidgetItem* nameItem = ui->searchTable->item(row,0);
+    if(!nameItem) return;
 
     QString providerName = ui->searchTable->item(row, 0)->text();
     QString date         = QDate::currentDate().toString("yyyy-MM-dd");

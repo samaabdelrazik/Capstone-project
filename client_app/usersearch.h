@@ -29,7 +29,7 @@ signals:
 
 private slots:
     void on_search_button_clicked();
-    void on_book_button_clicked();   // NEW: connect in .ui or manually
+    void onBookRowClicked(int);   // NEW: connect in .ui or manually
 
 private:
     Ui::UserSearch* ui;
