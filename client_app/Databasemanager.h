@@ -34,6 +34,7 @@ public:
     void           saveBooking(User u, Provider p, QString date);
     vector<Booking> getBooking();
     vector<Booking> getBookingsForProvider(QString providerName); // NEW: filtered
+    void cancelBook(QString user, QString provider, QString date);
 };
 
 #endif // DATABASEMANAGER_H

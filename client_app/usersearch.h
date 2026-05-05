@@ -26,10 +26,13 @@ signals:
     // Emitted when the user selects a provider row and clicks Book.
     // MainWindow catches this and sends a bookService command to the server.
     void bookServiceRequested(QString providerName, QString date);
+    void UserBookingClicked();
 
 private slots:
     void on_search_button_clicked();
     void onBookRowClicked(int);   // NEW: connect in .ui or manually
+
+    void on_myBookingsButton_clicked();
 
 private:
     Ui::UserSearch* ui;

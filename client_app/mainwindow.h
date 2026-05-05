@@ -11,6 +11,7 @@
 #include "loginscreen.h"
 #include "usersearch.h"
 #include "providerdashboard.h"
+#include "userbooking.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,11 +29,14 @@ private slots:
     void showLogin();
     void showCustomerDashboard();
     void showProviderDashboard();
+    void showBooking();
 
     void handleLogin(QString username, QString password, bool isProvider);
     void handleRegister(QString username, QString password, bool isProvider);
     void handleSearch(QString category);
     void handleBookService(QString providerName, QString date);
+    void handleShowBooking();
+    void handleCancelBook( QString, QString);
 
     void on_readReady();
 
@@ -44,6 +48,7 @@ private:
     ProviderDashboard* providerDashboard;
     System*            sys;
     QTcpSocket*        socket;
+    UserBooking* userBooking;
 
     bool    isProvider;
     QString loggedInUsername;

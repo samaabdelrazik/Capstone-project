@@ -36,6 +36,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         providerdashboard.h providerdashboard.cpp providerdashboard.ui
         Databasemanager.h Databasemanager.cpp
         notifications.h notifications.cpp
+        userbooking.h userbooking.cpp userbooking.ui
 
 
     )

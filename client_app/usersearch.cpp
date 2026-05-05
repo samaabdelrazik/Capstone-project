@@ -9,6 +9,11 @@ UserSearch::UserSearch(QWidget* parent)
     , ui(new Ui::UserSearch)
 {
     ui->setupUi(this);
+
+    ui->searchTable->horizontalHeader()
+        ->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->searchTable->horizontalHeader()
+        ->setSectionResizeMode(3, QHeaderView::ResizeToContents);
 }
 
 UserSearch::~UserSearch()
@@ -62,3 +67,11 @@ void UserSearch::onBookRowClicked(int row)
 
     emit bookServiceRequested(providerName, date);
 }
+
+void UserSearch::on_myBookingsButton_clicked()
+{
+    emit UserBookingClicked();
+}
+
+
+

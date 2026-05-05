@@ -17,6 +17,7 @@ private:
     static json::object addUser(json::value& request, std::shared_ptr<System> system);
     static json::object addProvider(json::value& request, std::shared_ptr<System> system);
     static json::object handleSearch(json::value& request, std::shared_ptr<System> system);
+    static json::object handleShowBooking(json::value& request, std::shared_ptr<System> system);
 
 
     static json::object getBookings(json::value& request, std::shared_ptr<System> system);
@@ -24,6 +25,7 @@ private:
     static json::object getProviderByName(json::value& request, std::shared_ptr<System> system);
     static json::object updateProvider(json::value& request, std::shared_ptr<System> system);
     static json::object handleNotifications(json::value& request, std::shared_ptr<System> system);
+    static json::object handleCancelBook(json::value& request, std::shared_ptr<System> system);
 };
 
 #endif // JSONHANDLER_H

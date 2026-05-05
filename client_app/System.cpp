@@ -86,6 +86,11 @@ std::vector<Booking> System::getBookings() const
     return db->getBooking();
 }
 
+void System::cancelBook(QString name, QString provider, QString date)
+{
+    db->cancelBook(name, provider, date);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // Notifications (stub — wire to a Notifications table when ready)
 // ─────────────────────────────────────────────────────────────────────────────

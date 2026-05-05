@@ -25,10 +25,12 @@ MainWindow::MainWindow(System* system)
     loginScreen       = new LoginScreen(this);
     usersearch        = new UserSearch(this);
     providerDashboard = new ProviderDashboard(this);
+    userBooking = new UserBooking(this);
 
     stackedWidget->addWidget(loginScreen);
     stackedWidget->addWidget(usersearch);
     stackedWidget->addWidget(providerDashboard);
+    stackedWidget->addWidget(userBooking);
     setCentralWidget(stackedWidget);
 
     // ── Signals ────────────────────────────────────────────────────────────
@@ -38,6 +40,10 @@ MainWindow::MainWindow(System* system)
             this, &MainWindow::handleRegister);
     connect(usersearch, &UserSearch::searchButtonClicked,
             this, &MainWindow::handleSearch);
+    connect(usersearch, &UserSearch::UserBookingClicked,
+            this, &MainWindow::handleShowBooking);
+    connect(userBooking, &UserBooking::cancelBook,
+            this, &MainWindow::handleCancelBook);
 
     // Wire the "Book" button in UserSearch through MainWindow to the server
     connect(usersearch, &UserSearch::bookServiceRequested,
@@ -92,6 +98,10 @@ void MainWindow::showProviderDashboard()
 {
     stackedWidget->setCurrentWidget(providerDashboard);
 }
+void MainWindow::showBooking()
+{
+    stackedWidget->setCurrentWidget(userBooking);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Outgoing commands
@@ -137,6 +147,25 @@ void MainWindow::handleBookService(QString providerName, QString date)
     req["customerName"] = loggedInUsername;
     req["providerName"] = providerName;
     req["date"]         = date;
+    sendJson(req);
+}
+
+void MainWindow::handleShowBooking()
+{
+    QJsonObject req;
+    req["command"] = "showBooking";
+    req["user"] = loggedInUsername;
+    sendJson(req);
+    showBooking();
+}
+
+void MainWindow::handleCancelBook( QString provider, QString date)
+{
+    QJsonObject req;
+    req["command"] = "cancelBooking";
+    req["username"] = loggedInUsername;
+    req["provider"] = provider;
+    req["date"] = date;
     sendJson(req);
 }
 
@@ -212,6 +241,11 @@ void MainWindow::on_readReady()
             showProviderDashboard();
         return;
     }
+    if(status == "success" && cmd == "showBooking")
+    {
+        QJsonArray bookings = response["bookings"].toArray();
+        userBooking->loadBookingsFromJson(bookings);
+    }
 
     // ── Search results ────────────────────────────────────────────────────────
     if (status == "success" && cmd == "filterByCategory")
@@ -234,7 +268,11 @@ void MainWindow::on_readReady()
         qDebug() << "Provider profile updated on server.";
         return;
     }
-
+    if (status == "success" && cmd == "cancelBooking")
+    {
+        QMessageBox::information(this, "Cancelled", "Booking cancelled successfully.");
+        return;
+    }
     // ── Any failure ───────────────────────────────────────────────────────────
     if (status == "failure")
     {

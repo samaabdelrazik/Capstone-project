@@ -25,6 +25,10 @@ json::object JsonHandler::processRequest(json::value& request, std::shared_ptr<S
         return updateProvider(request, system);
     else if (command == "notifications")
         return handleNotifications(request, system);
+    else if(command == "showBooking")
+        return handleShowBooking(request, system);
+    else if(command == "cancelBooking")
+        return handleCancelBook(request, system);
     else
     {
         json::object response;
@@ -251,5 +255,49 @@ json::object JsonHandler::handleNotifications(json::value& request, std::shared_
     response["status"]        = "success";
     response["command"]       = "notifications";
     response["notifications"] = arr;
+    return response;
+}
+
+json::object JsonHandler::handleShowBooking(json::value& request, std::shared_ptr<System> system)
+{
+    json::object response;
+    QString user = QString::fromStdString(
+        request.as_object()["user"].as_string().c_str()
+        );
+
+    auto allBookings = system->getBookings();
+
+    json::array results;
+    for (const auto& b : allBookings)
+    {
+        if (QString::fromStdString(b.getUser()) == user)
+        {
+            json::object obj;
+            obj["user"]     = b.getUser();
+            obj["provider"] = b.getProvider();
+            obj["date"]     = b.getDate();
+            results.push_back(obj);
+        }
+    }
+    response["status"]   = "success";
+    response["command"]  = "showBooking";
+    response["bookings"] = results;
+    return response;
+}
+
+json::object JsonHandler::handleCancelBook(json::value& request, std::shared_ptr<System> system)
+{
+    json::object response;
+
+    QString user     = QString::fromStdString(request.as_object()["username"].as_string().c_str());
+    QString provider = QString::fromStdString(request.as_object()["provider"].as_string().c_str());
+    QString date = QString::fromStdString(request.as_object()["date"].as_string().c_str());
+
+    system->cancelBook(user, provider, date);
+
+    response["status"]  = "success";
+    response["command"] = "cancelBooking";
+    response["message"] = "The booking is canceled successfully.";
+
     return response;
 }

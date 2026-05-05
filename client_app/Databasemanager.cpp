@@ -207,3 +207,20 @@ vector<Booking> DatabaseManager::getBookingsForProvider(QString providerName)
     }
     return result;
 }
+
+void DatabaseManager::cancelBook(QString user, QString provider, QString date)
+{
+    QSqlQuery query;
+
+    query.prepare("DELETE FROM Bookings WHERE customer_user = :user "
+                  "AND provider_user = :prov "
+                  "AND booking_date = :date");
+    query.bindValue(":user", user);
+    query.bindValue(":prov", provider);
+    query.bindValue(":date", date);
+
+    if(!query.exec())
+        qDebug() << "cancleBook error: " << query.lastError().text();
+    else
+        qDebug() << "Booking deleted. Rows affected: " << query.numRowsAffected();
+}

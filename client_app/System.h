@@ -36,6 +36,8 @@ public:
     bool bookService(User user, Provider provider, QString date);
     std::vector<Booking> getBookings() const;
 
+    void cancelBook(QString name, QString provider, QString date);
+
     // Notifications (stub — returns empty list until implemented)
     std::vector<std::string> getUserNotifications(const QString& username);
 };
